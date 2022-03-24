@@ -1,23 +1,32 @@
 import { createContext, useReducer } from 'react';
 
 const TodoContext = createContext({
-  todoItems: [],
+  todoList: [],
   todoDispatch: () => null,
 });
 
 const todoReducer = (state, { type, payload }) => {
   switch (type) {
     case 'newTodo':
-      return [{ id: new Date(), content: payload, done: false }];
+      return [{ id: new Date(), content: payload, done: false }, ...state];
     case 'deleteTodo':
       return state.filter((item) => item.id !== payload);
-    case 'toggleTodo':
-      const tagetTodo = state.filter((item) => item.id === payload);
+    case 'toggleToDone': {
+      const tagetTodo = state.filter((item) => item.id === payload)[0];
       const remainTodo = state.filter((item) => item.id !== payload);
 
-      tagetTodo.done = !tagetTodo.done;
+      tagetTodo.done = true;
 
       return [...remainTodo, tagetTodo];
+    }
+    case 'toggleToTodo': {
+      const tagetTodo = state.filter((item) => item.id === payload)[0];
+      const remainTodo = state.filter((item) => item.id !== payload);
+
+      tagetTodo.done = false;
+
+      return [...remainTodo, tagetTodo];
+    }
   }
 };
 
@@ -32,3 +41,4 @@ const TodoContextProvider = ({ children }) => {
 };
 
 export default TodoContextProvider;
+export { TodoContext };
