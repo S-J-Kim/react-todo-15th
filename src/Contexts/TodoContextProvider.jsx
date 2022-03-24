@@ -8,24 +8,30 @@ const TodoContext = createContext({
 const todoReducer = (state, { type, payload }) => {
   switch (type) {
     case 'newTodo':
-      return [{ id: new Date(), content: payload, done: false }, ...state];
+      return [
+        { id: new Date().getTime(), content: payload, done: false },
+        ...state,
+      ];
+
     case 'deleteTodo':
       return state.filter((item) => item.id !== payload);
-    case 'toggleToDone': {
-      const tagetTodo = state.filter((item) => item.id === payload)[0];
-      const remainTodo = state.filter((item) => item.id !== payload);
 
-      tagetTodo.done = true;
-
-      return [...remainTodo, tagetTodo];
-    }
     case 'toggleToTodo': {
-      const tagetTodo = state.filter((item) => item.id === payload)[0];
+      const targetTodo = state.filter((item) => item.id === payload)[0];
       const remainTodo = state.filter((item) => item.id !== payload);
 
-      tagetTodo.done = false;
+      targetTodo.done = false;
 
-      return [...remainTodo, tagetTodo];
+      return [targetTodo, ...remainTodo];
+    }
+
+    case 'toggleToDone': {
+      const targetTodo = state.filter((item) => item.id === payload)[0];
+      const remainTodo = state.filter((item) => item.id !== payload);
+
+      targetTodo.done = true;
+
+      return [targetTodo, ...remainTodo];
     }
   }
 };

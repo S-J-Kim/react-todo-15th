@@ -10,9 +10,12 @@ const useTodoContext = () => {
 
   const getDoneItems = () => todoList.filter((item) => item.done);
 
-  const getUndoneItems = () => todoList.filter((item) => !item.done);
+  const getUndoneItems = () =>
+    todoList.filter((item) => {
+      return item.done === false;
+    });
 
-  const deleteNewTodo = (id) => {
+  const deleteTodo = (id) => {
     todoDispatch({ type: 'deleteTodo', payload: id });
   };
 
@@ -21,14 +24,14 @@ const useTodoContext = () => {
   };
 
   const undoneItem = (id) => {
-    todoDispatch({ tyoe: 'toggleToTode', payload: id });
+    todoDispatch({ type: 'toggleToTodo', payload: id });
   };
 
   return {
     addNewTodo,
     getDoneItems,
     getUndoneItems,
-    deleteNewTodo,
+    deleteTodo,
     doneItem,
     undoneItem,
   };

@@ -1,20 +1,21 @@
+import { useState } from 'react';
 import styled from 'styled-components';
-import { useContext, useState } from 'react';
-import { TodoContext } from '../Contexts/TodoContextProvider';
+import useTodoContext from '../hooks/useTodoContext';
 
 const InputBox = () => {
-  const { todoDispatch } = useContext(TodoContext);
+  const { addNewTodo } = useTodoContext();
   const [val, setVal] = useState();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-    todoDispatch({ type: 'newTodo', payload: val });
+    addNewTodo(val);
+    setVal('');
   };
 
   return (
     <InputWrapper onSubmit={handleSubmit}>
-      <TodoInput onChange={(e) => setVal(e.target.value)} />
+      <TodoInput onChange={(e) => setVal(e.target.value)} value={val} />
       <AddButton>add</AddButton>
     </InputWrapper>
   );
