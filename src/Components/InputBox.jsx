@@ -1,21 +1,14 @@
-import { useState } from 'react';
 import styled from 'styled-components';
+import useForm from '../hooks/useForm';
 import useTodoContext from '../hooks/useTodoContext';
 
 const InputBox = () => {
   const { addNewTodo } = useTodoContext();
-  const [val, setVal] = useState();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    addNewTodo(val);
-    setVal('');
-  };
+  const { onSubmit, ...inputAttrs } = useForm('', addNewTodo);
 
   return (
-    <InputWrapper onSubmit={handleSubmit}>
-      <TodoInput onChange={(e) => setVal(e.target.value)} value={val} />
+    <InputWrapper onSubmit={onSubmit}>
+      <TodoInput {...inputAttrs} />
       <AddButton>add</AddButton>
     </InputWrapper>
   );

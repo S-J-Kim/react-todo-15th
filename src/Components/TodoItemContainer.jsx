@@ -9,7 +9,7 @@ const TodoItemContainer = ({ type, items }) => {
       </ContainerHeader>
       <ItemListContainer>
         {items.map((item) => {
-          return <SingleTodoItem item={item} />;
+          return <SingleTodoItem item={item} key={item.id} />;
         })}
       </ItemListContainer>
     </section>
