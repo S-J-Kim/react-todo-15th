@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import SingleTodoItem from './SingleTodoItem';
+import { ITodoContainerProps } from '../Interfaces/interface';
 
-const TodoItemContainer = ({ type, items }) => {
+const TodoItemContainer = ({ type, items }: ITodoContainerProps) => {
   return (
     <section>
       <ContainerHeader>

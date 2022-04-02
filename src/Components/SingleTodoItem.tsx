@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import useTodoContext from '../hooks/useTodoContext';
+import { ITodoItemProps } from '../Interfaces/interface';
 
-const SingleTodoItem = ({ item }) => {
+const SingleTodoItem = ({ item }: ITodoItemProps) => {
   const { id, content, done } = item;
   const { deleteTodo, doneItem, undoneItem } = useTodoContext();
 
-  const handleTodoItemClick = (id) => {
+  const handleTodoItemClick = (id: number) => {
     const handler = done ? undoneItem : doneItem;
 
     handler(id);
@@ -29,7 +30,7 @@ const TodoItemWrapper = styled.li`
 const TodoItemContent = styled.span`
   flex: 1;
 
-  text-decoration: ${({ done }) => {
+  text-decoration: ${({ done }: { done: boolean }) => {
     return done ? 'line-through' : 'none';
   }};
   color: ${({ done }) => {

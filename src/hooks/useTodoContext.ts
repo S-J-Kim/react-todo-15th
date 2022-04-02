@@ -4,7 +4,7 @@ import { TodoContext } from '../Contexts/TodoContextProvider';
 const useTodoContext = () => {
   const { todoList, todoDispatch } = useContext(TodoContext);
 
-  const addNewTodo = (text) => {
+  const addNewTodo = (text: string) => {
     todoDispatch({ type: 'newTodo', payload: text });
   };
 
@@ -15,15 +15,15 @@ const useTodoContext = () => {
       return item.done === false;
     });
 
-  const deleteTodo = (id) => {
+  const deleteTodo = (id: number) => {
     todoDispatch({ type: 'deleteTodo', payload: id });
   };
 
-  const doneItem = (id) => {
+  const doneItem = (id: number) => {
     todoDispatch({ type: 'toggleToDone', payload: id });
   };
 
-  const undoneItem = (id) => {
+  const undoneItem = (id: number) => {
     todoDispatch({ type: 'toggleToTodo', payload: id });
   };
 

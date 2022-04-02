@@ -1,11 +1,21 @@
 import { createContext, useReducer } from 'react';
+import { TodoAction } from '../Interfaces/actions';
+import { ITodoCtx, TodoList } from '../Interfaces/interface';
 
-const TodoContext = createContext({
-  todoList: [],
-  todoDispatch: () => null,
+const initialTodoList = [
+  {
+    id: 0,
+    content: '',
+    done: false,
+  },
+];
+
+const TodoContext = createContext<ITodoCtx>({
+  todoList: initialTodoList,
+  todoDispatch: (value: TodoAction) => null,
 });
 
-const todoReducer = (state, { type, payload }) => {
+const todoReducer = (state: TodoList, { type, payload }: TodoAction) => {
   switch (type) {
     case 'newTodo':
       return [
@@ -36,7 +46,7 @@ const todoReducer = (state, { type, payload }) => {
   }
 };
 
-const TodoContextProvider = ({ children }) => {
+const TodoContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [todoList, todoDispatch] = useReducer(todoReducer, []);
 
   return (
