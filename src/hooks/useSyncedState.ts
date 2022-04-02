@@ -1,27 +1,20 @@
-import { useEffect, useState } from 'react';
-import useLocalStorage from './useLocalStorage';
+import { useState } from 'react';
 
 const useSyncedState = <T>(
   key: string,
-  initialValue: T | undefined = undefined
-) => {
-  const [storedVal, setStoredVal] = useState<T | undefined>(initialValue);
-  const { getItems, setItems } = useLocalStorage<T>();
+  initialState?: T
+): [T, (value: T) => void] => {
+  const [storedValue, setStoredValue] = useState<T>(() => {
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(item) : initialState;
+  });
 
-  useEffect(() => {
-    if (initialValue) {
-      setItems(key, initialValue);
-      setStoredVal(initialValue);
-    } else {
-      setStoredVal(JSON.parse(getItems(key)));
-    }
-  }, []);
+  const setValue = (value: T) => {
+    setStoredValue(value);
+    localStorage.setItem(key, JSON.stringify(value));
+  };
 
-  useEffect(() => {
-    setItems(key, storedVal!);
-  }, [storedVal]);
-
-  return [storedVal, setStoredVal];
+  return [storedValue, setValue];
 };
 
 export default useSyncedState;

@@ -7,8 +7,8 @@ function App() {
 
   return (
     <>
-      <TodoItemContainer type="To-do" items={getUndoneItems()} key={'todo'} />
-      <TodoItemContainer type="Done" items={getDoneItems()} key={'done'} />
+      <TodoItemContainer type={'To-Do'} items={getUndoneItems()} key={'todo'} />
+      <TodoItemContainer type={'Done'} items={getDoneItems()} key={'done'} />
       <InputBox />
     </>
   );

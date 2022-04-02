@@ -1,4 +1,10 @@
+import { TodoList } from './interface';
+
 export type TodoAction =
+  | {
+      type: 'initialize';
+      payload: TodoList;
+    }
   | {
       type: 'newTodo';
       payload: string;

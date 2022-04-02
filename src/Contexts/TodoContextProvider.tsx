@@ -1,4 +1,5 @@
-import { createContext, useReducer } from 'react';
+import { createContext } from 'react';
+import useSyncedReducer from '../hooks/useSyncedReducer';
 import { TodoAction } from '../Interfaces/actions';
 import { ITodoCtx, TodoList } from '../Interfaces/interface';
 
@@ -15,8 +16,14 @@ const TodoContext = createContext<ITodoCtx>({
   todoDispatch: (value: TodoAction) => null,
 });
 
-const todoReducer = (state: TodoList, { type, payload }: TodoAction) => {
+const todoReducer = (
+  state: TodoList,
+  { type, payload }: TodoAction
+): TodoList => {
   switch (type) {
+    case 'initialize':
+      return payload;
+
     case 'newTodo':
       return [
         { id: new Date().getTime(), content: payload, done: false },
@@ -47,7 +54,11 @@ const todoReducer = (state: TodoList, { type, payload }: TodoAction) => {
 };
 
 const TodoContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [todoList, todoDispatch] = useReducer(todoReducer, []);
+  const [todoList, todoDispatch] = useSyncedReducer<TodoList, TodoAction>(
+    'todo-item',
+    todoReducer,
+    initialTodoList
+  );
 
   return (
     <TodoContext.Provider value={{ todoList, todoDispatch }}>
